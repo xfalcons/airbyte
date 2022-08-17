@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import { CellProps } from "react-table";
-import { useToggle } from "react-use";
 
 import { Button, H5, LoadingButton } from "components";
 import Table from "components/Table";
@@ -11,12 +10,15 @@ import { useConfirmationModalService } from "hooks/services/ConfirmationModal";
 import { useCurrentWorkspace } from "hooks/services/useWorkspace";
 import { User } from "packages/cloud/lib/domain/users";
 import { useAuthService } from "packages/cloud/services/auth/AuthService";
+import {
+  InviteUsersModalServiceProvider,
+  useInviteUsersModalService,
+} from "packages/cloud/services/users/InviteUsersModalService";
 import { useListUsers, useUserHook } from "packages/cloud/services/users/UseUserHook";
-import { InviteUsersModal } from "packages/cloud/views/users/InviteUsersModal";
 
 import styles from "./UsersSettingsView.module.scss";
 
-const RemoveUserSection: React.FC<{ workspaceId: string; email: string }> = ({ workspaceId, email }) => {
+const RemoveUserSection: React.VFC<{ workspaceId: string; email: string }> = ({ workspaceId, email }) => {
   const { openConfirmationModal, closeConfirmationModal } = useConfirmationModalService();
   const { removeUserLogic } = useUserHook();
   const { isLoading, mutate: removeUser } = removeUserLogic;
@@ -41,17 +43,31 @@ const RemoveUserSection: React.FC<{ workspaceId: string; email: string }> = ({ w
   );
 };
 
-export const UsersSettingsView: React.FC = () => {
-  useTrackPage(PageTrackingCodes.SETTINGS_ACCESS_MANAGEMENT);
+const Header: React.VFC = () => {
+  const { toggleInviteUsersModalOpen } = useInviteUsersModalService();
+  return (
+    <div className={styles.header}>
+      <H5>
+        <FormattedMessage id="userSettings.table.title" />
+      </H5>
+      <Button
+        onClick={() => {
+          toggleInviteUsersModalOpen();
+        }}
+        data-testid="userSettings.button.addNewUser"
+      >
+        + <FormattedMessage id="userSettings.button.addNewUser" />
+      </Button>
+    </div>
+  );
+};
 
-  const [modalIsOpen, toggleModal] = useToggle(false);
+export const UsersTable: React.FC = () => {
   const { workspaceId } = useCurrentWorkspace();
-
   const users = useListUsers();
-
   const { user } = useAuthService();
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => [
       {
         Header: <FormattedMessage id="userSettings.table.column.fullname" />,
@@ -94,18 +110,16 @@ export const UsersSettingsView: React.FC = () => {
     [workspaceId, user]
   );
 
+  return <Table data={users ?? []} columns={columns} />;
+};
+
+export const UsersSettingsView: React.VFC = () => {
+  useTrackPage(PageTrackingCodes.SETTINGS_ACCESS_MANAGEMENT);
+
   return (
-    <>
-      <div className={styles.header}>
-        <H5>
-          <FormattedMessage id="userSettings.table.title" />
-        </H5>
-        <Button onClick={toggleModal} data-testid="userSettings.button.addNewUser">
-          + <FormattedMessage id="userSettings.button.addNewUser" />
-        </Button>
-      </div>
-      <Table data={users ?? []} columns={columns} />
-      {modalIsOpen && <InviteUsersModal onClose={toggleModal} />}
-    </>
+    <InviteUsersModalServiceProvider>
+      <Header />
+      <UsersTable />
+    </InviteUsersModalServiceProvider>
   );
 };
