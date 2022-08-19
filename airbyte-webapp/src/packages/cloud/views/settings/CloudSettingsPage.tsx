@@ -12,18 +12,9 @@ import {
 } from "pages/SettingsPage/pages/ConnectorsPage";
 // import ConfigurationsPage from "pages/SettingsPage/pages/ConfigurationsPage";
 import NotificationPage from "pages/SettingsPage/pages/NotificationPage";
-import { PageConfig, SettingsRoute } from "pages/SettingsPage/SettingsPage";
+import { PageConfig } from "pages/SettingsPage/SettingsPage";
 
-const CloudSettingsRoutes = {
-  Configuration: SettingsRoute.Configuration,
-  Notifications: SettingsRoute.Notifications,
-  Account: SettingsRoute.Account,
-  Source: SettingsRoute.Source,
-  Destination: SettingsRoute.Destination,
-
-  Workspace: "workspaces",
-  AccessManagement: "access-management",
-} as const;
+import { CloudSettingsRoutes } from "./routePaths";
 
 export const CloudSettingsPage: React.FC = () => {
   // TODO: uncomment when supported in cloud

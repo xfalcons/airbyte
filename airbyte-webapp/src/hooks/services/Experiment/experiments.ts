@@ -4,6 +4,8 @@
  */
 
 export interface Experiments {
+  "connector.inviteUserHint.visible": boolean;
+  "connector.inviteUserHint.linkToUsersPage": false;
   "connector.orderOverwrite": Record<string, number>;
   "authPage.rightSideUrl": string | undefined;
   "authPage.hideSelfHostedCTA": boolean;
