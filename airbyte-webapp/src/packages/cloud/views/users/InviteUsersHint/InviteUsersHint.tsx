@@ -2,7 +2,6 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import Button from "components/base/Button";
 import { Text } from "components/base/Text";
-import Link from "components/Link";
 
 import { useExperiment } from "hooks/services/Experiment";
 import {
@@ -20,14 +19,15 @@ const ACCESS_MANAGEMENT_PATH = `../../${RoutePaths.Settings}/${CloudSettingsRout
 const InviteUsersHintContent: React.VFC<InviteUsersHintProps> = ({ connectorType }) => {
   const { formatMessage } = useIntl();
   const { toggleInviteUsersModalOpen } = useInviteUsersModalService();
-  const linkToUsersPage = useExperiment("connector.inviteUserHint.linkToUsersPage", false);
+  const linkToUsersPage = useExperiment("connector.inviteUsersHint.linkToUsersPage", false);
 
   const inviteUsersCta = linkToUsersPage ? (
-    <Link to={ACCESS_MANAGEMENT_PATH} target="_blank" rel="noreferrer">
+    <a href={ACCESS_MANAGEMENT_PATH} target="_blank" rel="noreferrer" data-testid="inviteUsersHint-cta">
       <FormattedMessage id="inviteUsersHint.cta" />
-    </Link>
+    </a>
   ) : (
     <Button
+      data-testid="inviteUsersHint-cta"
       secondary
       onClick={() => {
         toggleInviteUsersModalOpen();
@@ -38,7 +38,7 @@ const InviteUsersHintContent: React.VFC<InviteUsersHintProps> = ({ connectorType
   );
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="inviteUsersHint">
       <Text size="sm">
         <FormattedMessage
           id="inviteUsersHint.message"
@@ -53,7 +53,7 @@ const InviteUsersHintContent: React.VFC<InviteUsersHintProps> = ({ connectorType
 };
 
 export const InviteUsersHint: React.VFC<InviteUsersHintProps> = (props) => {
-  const isVisible = !useExperiment("connector.inviteUserHint.visible", false);
+  const isVisible = useExperiment("connector.inviteUsersHint.visible", false);
 
   return isVisible ? (
     <InviteUsersModalServiceProvider>
