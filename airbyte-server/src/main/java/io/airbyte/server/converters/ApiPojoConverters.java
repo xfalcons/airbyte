@@ -133,6 +133,12 @@ public class ApiPojoConverters {
     return Enums.convertTo(apiTimeUnit, Schedule.TimeUnit.class);
   }
 
+  public static Schedule.TimeUnit toPersistenceTimeUnitFromApiBasicSchedule(
+                                                                            final ConnectionScheduleDataBasicSchedule.TimeUnitEnum basicScheduleTimeUnit) {
+
+    return Enums.convertTo(basicScheduleTimeUnit, Schedule.TimeUnit.class);
+  }
+
   public static BasicSchedule.TimeUnit toBasicScheduleTimeUnit(final ConnectionSchedule.TimeUnitEnum apiTimeUnit) {
     return Enums.convertTo(apiTimeUnit, BasicSchedule.TimeUnit.class);
   }
