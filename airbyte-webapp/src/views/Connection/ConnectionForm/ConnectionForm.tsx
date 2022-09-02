@@ -356,7 +356,9 @@ export const ConnectionForm: React.FC<ConnectionFormProps> = ({
                 onCancel?.();
               }}
               successMessage={successMessage}
-              errorMessage={errorMessage || !isValid ? formatMessage({ id: "connectionForm.validation.error" }) : null}
+              errorMessage={
+                errorMessage ? errorMessage : !isValid ? formatMessage({ id: "connectionForm.validation.error" }) : null
+              }
               enableControls={canSubmitUntouchedForm}
             />
           )}
@@ -376,7 +378,11 @@ export const ConnectionForm: React.FC<ConnectionFormProps> = ({
                 isSubmitting={isSubmitting}
                 isValid={isValid && !editingTransformation}
                 errorMessage={
-                  errorMessage || !isValid ? formatMessage({ id: "connectionForm.validation.error" }) : null
+                  errorMessage
+                    ? errorMessage
+                    : !isValid
+                    ? formatMessage({ id: "connectionForm.validation.error" })
+                    : null
                 }
               />
             </>
