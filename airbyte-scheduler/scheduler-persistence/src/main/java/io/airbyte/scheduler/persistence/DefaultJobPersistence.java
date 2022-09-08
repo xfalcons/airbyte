@@ -345,7 +345,7 @@ public class DefaultJobPersistence implements JobPersistence {
   @Override
   public Long getJobCount(final Set<ConfigType> configTypes, final String connectionId) throws IOException {
     return jobDatabase.query(ctx -> ctx.selectCount().from(JOBS)
-        .where(JOBS.CONFIG_TYPE.cast(String.class).in(Sqls.toSqlNames(configTypes)))
+        .where(JOBS.CONFIG_TYPE.in(Sqls.toSqlNames(configTypes)))
         .and(JOBS.SCOPE.eq(connectionId))
         .fetchOne().into(Long.class));
   }
@@ -359,7 +359,7 @@ public class DefaultJobPersistence implements JobPersistence {
   public List<Job> listJobs(final Set<ConfigType> configTypes, final String configId, final int pagesize, final int offset) throws IOException {
     return jobDatabase.query(ctx -> {
       final String jobsSubquery = "(" + ctx.select(DSL.asterisk()).from(JOBS)
-          .where(JOBS.CONFIG_TYPE.cast(String.class).in(Sqls.toSqlNames(configTypes)))
+          .where(JOBS.CONFIG_TYPE.in(Sqls.toSqlNames(configTypes)))
           .and(JOBS.SCOPE.eq(configId))
           .orderBy(JOBS.CREATED_AT.desc(), JOBS.ID.desc())
           .limit(pagesize)
@@ -374,7 +374,7 @@ public class DefaultJobPersistence implements JobPersistence {
   public List<Job> listJobsStartingWithId(final Set<ConfigType> configTypes, final String connectionId, final long startingJobId, final int pagesize)
       throws IOException {
     final Optional<OffsetDateTime> startingJobCreatedAt = jobDatabase.query(ctx -> ctx.select(JOBS.CREATED_AT).from(JOBS)
-        .where(JOBS.CONFIG_TYPE.cast(String.class).in(Sqls.toSqlNames(configTypes)))
+        .where(JOBS.CONFIG_TYPE.in(Sqls.toSqlNames(configTypes)))
         .and(JOBS.SCOPE.eq(connectionId))
         .and(JOBS.ID.eq(startingJobId))
         .stream()
@@ -386,7 +386,7 @@ public class DefaultJobPersistence implements JobPersistence {
     }
 
     final int countIncludingStartingJob = jobDatabase.query(ctx -> ctx.selectCount().from(JOBS)
-        .where(JOBS.CONFIG_TYPE.cast(String.class).in(Sqls.toSqlNames(configTypes)))
+        .where(JOBS.CONFIG_TYPE.in(Sqls.toSqlNames(configTypes)))
         .and(JOBS.SCOPE.eq(connectionId))
         .and(JOBS.CREATED_AT.greaterOrEqual(startingJobCreatedAt.get()))
         .fetchOne().into(int.class));
@@ -399,7 +399,7 @@ public class DefaultJobPersistence implements JobPersistence {
     // list of jobs starting with starting job is larger than pagesize, so return that list
     return jobDatabase.query(ctx -> {
       final String jobsSubquery = "(" + ctx.select(DSL.asterisk()).from(JOBS)
-          .where(JOBS.CONFIG_TYPE.cast(String.class).in(Sqls.toSqlNames(configTypes)))
+          .where(JOBS.CONFIG_TYPE.in(Sqls.toSqlNames(configTypes)))
           .and(JOBS.SCOPE.eq(connectionId))
           .and(JOBS.CREATED_AT.greaterOrEqual(startingJobCreatedAt.get()))
           .getSQL(ParamType.INLINED) + ") AS jobs";
