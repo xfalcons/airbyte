@@ -1,10 +1,10 @@
 import { fireEvent, render } from "@testing-library/react";
 import React from "react";
+import { TestWrapper } from "test-utils/testutils";
 
 import { useExperiment } from "hooks/services/Experiment";
 import { Experiments } from "hooks/services/Experiment/experiments";
 import { RoutePaths } from "pages/routePaths";
-import { TestWrapper } from "utils/testutils";
 
 import { CloudSettingsRoutes } from "../../settings/routePaths";
 
