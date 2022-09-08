@@ -161,7 +161,6 @@ class BootloaderAppTest {
 
     final JsonSecretsProcessor jsonSecretsProcessor = JsonSecretsProcessor.builder()
         .copySecrets(true)
-        .maskSecrets(true)
         .build();
 
     try (val configsDslContext = DSLContextFactory.create(configsDataSource, SQLDialect.POSTGRES);

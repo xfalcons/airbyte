@@ -501,7 +501,6 @@ public class WorkerApp {
 
       final Database configDatabase = new Database(configsDslContext);
       final JsonSecretsProcessor jsonSecretsProcessor = JsonSecretsProcessor.builder()
-          .maskSecrets(!featureFlags.exposeSecretsInExport())
           .copySecrets(false)
           .build();
       final ConfigPersistence configPersistence = DatabaseConfigPersistence.createWithValidation(configDatabase, jsonSecretsProcessor);
