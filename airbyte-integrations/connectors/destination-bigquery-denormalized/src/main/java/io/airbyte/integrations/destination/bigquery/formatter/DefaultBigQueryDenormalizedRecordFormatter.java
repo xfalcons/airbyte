@@ -193,14 +193,14 @@ public class DefaultBigQueryDenormalizedRecordFormatter extends DefaultBigQueryR
     final List<String> fieldNames = fields.stream().map(Field::getName).collect(Collectors.toList());
 
     fields.stream()
-            .filter(f -> f.getType().equals(LegacySQLTypeName.STRING))
-            .filter(field -> root.get(field.getName()) != null)
-            .filter(f -> root.get(f.getName()).isObject())
-            .forEach(f ->{
-              final String value = root.get(f.getName()).toString();
-              ((ObjectNode) root).remove(f.getName());
-              ((ObjectNode) root).put(f.getName(), new TextNode(value));
-            });
+        .filter(f -> f.getType().equals(LegacySQLTypeName.STRING))
+        .filter(field -> root.get(field.getName()) != null)
+        .filter(f -> root.get(f.getName()).isObject())
+        .forEach(f -> {
+          final String value = root.get(f.getName()).toString();
+          ((ObjectNode) root).remove(f.getName());
+          ((ObjectNode) root).put(f.getName(), new TextNode(value));
+        });
 
     return Jsons.jsonNode(Jsons.keys(root).stream()
         .filter(key -> {
