@@ -279,6 +279,7 @@ public class MongoUtils {
     return listOfTypes;
   }
 
+  @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
   private static BsonType getUniqueType(final List<String> types) {
     if (types.size() != 1) {
       return BsonType.STRING;
