@@ -7,7 +7,7 @@ import datetime
 import json
 import os
 import random
-from typing import Dict, Generator
+from typing import Dict, Generator, List
 
 from airbyte_cdk.logger import AirbyteLogger
 from airbyte_cdk.models import (
@@ -18,7 +18,10 @@ from airbyte_cdk.models import (
     AirbyteStateMessage,
     AirbyteStream,
     ConfiguredAirbyteCatalog,
+    ConfiguredAirbyteStream,
+    DestinationSyncMode,
     Status,
+    SyncMode,
     Type,
 )
 from airbyte_cdk.sources import Source
@@ -211,8 +214,8 @@ def generate_user(fake: Faker, user_id: int):
     return profile
 
 
-def generate_purchases(fake: Faker, user: any, purchases_count: int) -> list[Dict]:
-    purchases: list[Dict] = []
+def generate_purchases(fake: Faker, user: any, purchases_count: int) -> List[Dict]:
+    purchases: List[Dict] = []
     purchase_percent_remaining = 80  # ~ 20% of people will have no purchases
     total_products = len(generate_products())
     purchase_percent_remaining = purchase_percent_remaining - random.randrange(1, 100)
@@ -242,7 +245,7 @@ def generate_purchases(fake: Faker, user: any, purchases_count: int) -> list[Dic
     return purchases
 
 
-def generate_products() -> list[Dict]:
+def generate_products() -> List[Dict]:
     dirname = os.path.dirname(os.path.realpath(__file__))
     return read_json(os.path.join(dirname, "products.json"))
 
@@ -258,3 +261,20 @@ def random_date_in_range(start_date: datetime.datetime, end_date: datetime.datet
     random_number_of_days = random.randrange(days_between_dates)
     random_date = start_date + datetime.timedelta(days=random_number_of_days)
     return random_date
+
+
+if __name__ == "__main__":
+    import logging
+
+    logger = logging.getLogger("logger")
+    source = SourceFaker()
+    config = {"count": 5, "seed": -1, "records_per_sync": 10, "records_per_slice": 3}
+    catalog = source.discover(logger, config)
+    configured_catalog = ConfiguredAirbyteCatalog(
+        streams=[
+            ConfiguredAirbyteStream(stream=s, sync_mode=SyncMode.full_refresh, destination_sync_mode=DestinationSyncMode.append)
+            for s in catalog.streams
+        ]
+    )
+    data = list(source.read(logger, config, configured_catalog, {}))
+    print(data)
