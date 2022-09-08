@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
 
 import { LoadingPage, PageTitle } from "components";
+import { CloudInviteUsersHint } from "components/CloudInviteUsersHint";
 import ConnectionBlock from "components/ConnectionBlock";
 import { FormPageContent } from "components/ConnectorBlocks";
 import CreateConnectionContent from "components/CreateConnectionContent";
@@ -143,6 +144,7 @@ export const CreationFormPage: React.FC = () => {
                 }
               }}
             />
+            <CloudInviteUsersHint connectorType="source" />
           </>
         );
       } else if (currentEntityStep === EntityStepsTypes.DESTINATION) {
@@ -157,6 +159,7 @@ export const CreationFormPage: React.FC = () => {
                 setCurrentStep(StepsTypes.CREATE_CONNECTION);
               }}
             />
+            <CloudInviteUsersHint connectorType="destination" />
           </>
         );
       }
