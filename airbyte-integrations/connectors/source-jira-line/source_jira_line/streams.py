@@ -13,7 +13,7 @@ import requests
 from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams.http import HttpStream
 
-API_VERSION = 3
+API_VERSION = 2
 
 
 class JiraStream(HttpStream, ABC):
@@ -68,7 +68,17 @@ class JiraStream(HttpStream, ABC):
 
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         response_json = response.json()
-        records = response_json if not self.parse_response_root else response_json.get(self.parse_response_root, [])
+        # Todo: XXX
+        print("XXX url_base: ", self.url_base)
+        print("XXX path: ", self.path())
+        print("XXX request_params: ", self.request_params(**kwargs))
+
+        if self.parse_response_root and isinstance(response_json, dict):
+            records = response_json.get(self.parse_response_root, [])
+        else:
+            records = response_json
+        # records = response_json if not self.parse_response_root else response_json.get(self.parse_response_root, [])
+        # records = response_json
         if isinstance(records, list):
             for record in records:
                 yield self.transform(record=record, **kwargs)
@@ -749,7 +759,7 @@ class Projects(JiraStream):
     use_cache = True
 
     def path(self, **kwargs) -> str:
-        return "project/search"
+        return "project"
 
     def request_params(self, **kwargs):
         params = super().request_params(**kwargs)

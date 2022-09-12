@@ -6,7 +6,7 @@
 import sys
 
 from airbyte_cdk.entrypoint import launch
-from source_jira import SourceJira
+from source_jira_line import SourceJira
 
 if __name__ == "__main__":
     source = SourceJira()

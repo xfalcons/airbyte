@@ -2678,13 +2678,13 @@
             },
             "viewUrl": {
               "type": "string",
-              "description": "A URL to view the filter results in Jira, using the ID of the filter. For example, *https://your-domain.atlassian.net/issues/?filter=10100*.",
+              "description": "A URL to view the filter results in Jira, using the ID of the filter. For example, *https://your-domain.linecorp.com/issues/?filter=10100*.",
               "format": "uri",
               "readOnly": true
             },
             "searchUrl": {
               "type": "string",
-              "description": "A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-3-filter-search-get) operation with the filter's JQL string to return the filter results. For example, *https://your-domain.atlassian.net/rest/api/3/search?jql=project+%3D+SSP+AND+issuetype+%3D+Bug*.",
+              "description": "A URL to view the filter results in Jira, using the [Search for issues using JQL](#api-rest-api-3-filter-search-get) operation with the filter's JQL string to return the filter results. For example, *https://your-domain.linecorp.com/rest/api/3/search?jql=project+%3D+SSP+AND+issuetype+%3D+Bug*.",
               "format": "uri",
               "readOnly": true
             },

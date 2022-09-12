@@ -5,5 +5,5 @@ plugins {
 }
 
 airbytePython {
-    moduleDirectory 'source_jira'
+    moduleDirectory 'source_jira_line'
 }

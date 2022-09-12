@@ -13,8 +13,8 @@ TEST_REQUIREMENTS = [
 ]
 
 setup(
-    name="source_jira",
-    description="Source implementation for Jira.",
+    name="source_jira_line",
+    description="Source implementation for Jira LINE.",
     author="Airbyte",
     author_email="contact@airbyte.io",
     packages=find_packages(),
