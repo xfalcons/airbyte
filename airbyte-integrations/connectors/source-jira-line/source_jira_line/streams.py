@@ -10,8 +10,11 @@ from urllib.parse import parse_qs
 
 import pendulum
 import requests
+import logging
 from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams.http import HttpStream
+
+logger = logging.getLogger("airbyte")
 
 API_VERSION = 2
 
@@ -68,17 +71,15 @@ class JiraStream(HttpStream, ABC):
 
     def parse_response(self, response: requests.Response, **kwargs) -> Iterable[Mapping]:
         response_json = response.json()
-        # Todo: XXX
-        print("XXX url_base: ", self.url_base)
-        print("XXX path: ", self.path())
-        print("XXX request_params: ", self.request_params(**kwargs))
+
+        self.logger.info(f"XXX url_base: {self.url_base}")
+        self.logger.info(f"XXX path: {self.path()}")
+        self.logger.info(f"XXX request_params: {self.request_params(**kwargs)}")
 
         if self.parse_response_root and isinstance(response_json, dict):
             records = response_json.get(self.parse_response_root, [])
         else:
             records = response_json
-        # records = response_json if not self.parse_response_root else response_json.get(self.parse_response_root, [])
-        # records = response_json
         if isinstance(records, list):
             for record in records:
                 yield self.transform(record=record, **kwargs)
