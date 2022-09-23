@@ -1,7 +1,7 @@
-connector_image: airbyte/source-github:dev
+connector_image: airbyte/source-github-line:dev
 tests:
   spec:
-    - spec_path: "source_github/spec.json"
+    - spec_path: "source_github_line/spec.json"
   connection:
     - config_path: "secrets/config.json"
       status: "succeed"

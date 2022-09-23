@@ -6,7 +6,7 @@
 import sys
 
 from airbyte_cdk.entrypoint import launch
-from source_github import SourceGithub
+from source_github_line import SourceGithub
 
 if __name__ == "__main__":
     source = SourceGithub()

@@ -1,6 +1,6 @@
 *
 !Dockerfile
 !main.py
-!source_github
+!source_github_line
 !setup.py
 !secrets

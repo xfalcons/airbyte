@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 import pytest
 import responses
 from airbyte_cdk.models import AirbyteConnectionStatus, Status
-from source_github.source import SourceGithub
+from source_github_line.source import SourceGithub
 
 
 def check_source(repo_line: str) -> AirbyteConnectionStatus:
