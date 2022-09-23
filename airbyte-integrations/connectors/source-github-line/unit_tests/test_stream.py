@@ -12,8 +12,8 @@ import requests
 import responses
 from airbyte_cdk.sources.streams.http.exceptions import BaseBackoffException
 from responses import matchers
-from source_github import streams
-from source_github.streams import (
+from source_github_line import streams
+from source_github_line.streams import (
     Branches,
     Collaborators,
     Comments,

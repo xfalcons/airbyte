@@ -3,7 +3,7 @@
 #
 
 from airbyte_cdk.sources.streams.http.auth import MultipleTokenAuthenticator
-from source_github import SourceGithub
+from source_github_line import SourceGithub
 
 
 def test_single_token():
