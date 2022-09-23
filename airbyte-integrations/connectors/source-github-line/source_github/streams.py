@@ -20,7 +20,7 @@ DEFAULT_PAGE_SIZE = 100
 
 
 class GithubStream(HttpStream, ABC):
-    url_base = "https://api.github.com/"
+    url_base = "https://git.linecorp.com/"
 
     primary_key = "id"
 
@@ -145,7 +145,7 @@ class GithubStream(HttpStream, ABC):
                     )
             elif e.response.status_code == requests.codes.GONE and isinstance(self, Projects):
                 # Some repos don't have projects enabled and we we get "410 Client Error: Gone for
-                # url: https://api.github.com/repos/xyz/projects?per_page=100" error.
+                # url: https://git.linecorp.com/repos/xyz/projects?per_page=100" error.
                 error_msg = f"Syncing `Projects` stream isn't available for repository `{stream_slice['repository']}`."
             elif e.response.status_code == requests.codes.CONFLICT:
                 error_msg = (

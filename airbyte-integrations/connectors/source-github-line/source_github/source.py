@@ -157,14 +157,14 @@ class SourceGithub(AbstractSource):
 
         except Exception as e:
             message = repr(e)
-            if "404 Client Error: Not Found for url: https://api.github.com/repos/" in message:
-                # HTTPError('404 Client Error: Not Found for url: https://api.github.com/repos/airbytehq/airbyte3?per_page=100')"
-                full_repo_name = message.split("https://api.github.com/repos/")[1]
+            if "404 Client Error: Not Found for url: https://git.linecorp.com/repos/" in message:
+                # HTTPError('404 Client Error: Not Found for url: https://git.linecorp.com/repos/airbytehq/airbyte3?per_page=100')"
+                full_repo_name = message.split("https://git.linecorp.com/repos/")[1]
                 full_repo_name = full_repo_name.split("?")[0]
                 message = f'Unknown repo name: "{full_repo_name}", use existing full repo name <organization>/<repository>'
-            elif "404 Client Error: Not Found for url: https://api.github.com/orgs/" in message:
-                # HTTPError('404 Client Error: Not Found for url: https://api.github.com/orgs/airbytehqBLA/repos?per_page=100')"
-                org_name = message.split("https://api.github.com/orgs/")[1]
+            elif "404 Client Error: Not Found for url: https://git.linecorp.com/orgs/" in message:
+                # HTTPError('404 Client Error: Not Found for url: https://git.linecorp.com/orgs/airbytehqBLA/repos?per_page=100')"
+                org_name = message.split("https://git.linecorp.com/orgs/")[1]
                 org_name = org_name.split("/")[0]
                 message = f'Unknown organization name: "{org_name}"'
 
