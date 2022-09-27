@@ -20,7 +20,7 @@ DEFAULT_PAGE_SIZE = 100
 
 
 class GithubStream(HttpStream, ABC):
-    url_base = "https://git.linecorp.com/"
+    url_base = "https://git.linecorp.com/api/v3/"
 
     primary_key = "id"
 
